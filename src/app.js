@@ -150,9 +150,9 @@ class App {
 
     // TASK 2.1.3 Store if object is interacting meshes
     storeIfInteractingMesh(mesh) {
-        if(!mesh.isMesh) return
+        if (!mesh.isMesh) return
 
-        if(mesh.name == "SD_Prop_Chest_Skull_Lid_01") {
+        if (mesh.name == "SD_Prop_Chest_Skull_Lid_01") {
             this.interactables.push(new Interactable(mesh, {
                 mode: 'tweens',
                 tweens: [
@@ -165,7 +165,7 @@ class App {
                     }
                 ]
             }));
-        } else  if (mesh.name == "Door_1") {
+        } else if (mesh.name == "Door_1") {
             this.interactables.push(new Interactable(mesh, {
                 mode: 'tweens',
                 tweens: [
@@ -173,7 +173,20 @@ class App {
                         target: mesh.quaternion,
                         channel: 'z',
                         start: 0,
-                        end: 0.6,
+                        end: 0.7,
+                        duration: 1
+                    }
+                ]
+            }));
+        } else if (mesh.name == "Door_3") {
+            this.interactables.push(new Interactable(mesh, {
+                mode: 'tweens',
+                tweens: [
+                    {
+                        target: mesh.quaternion,
+                        channel: 'z',
+                        start: 0,
+                        end: 0.7,
                         duration: 1
                     }
                 ]

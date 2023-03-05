@@ -97,6 +97,8 @@ class App {
         // Prepare loading bar
         this.loadingBar = new LoadingBar(loader);
 
+        // TASK 2.1.1 Create empty array for storing interacting meshes
+
         const self = this;
 
         // Load a glTF resource
@@ -117,6 +119,8 @@ class App {
                             child.geometry.scale(scale, scale, scale);
                             child.scale.set(2, 2, 2);
                         } else {
+                            // TASK 2.1.2 Check if mesh is interacting
+
                             child.castShadow = false;
                             child.receiveShadow = true;
                         }
@@ -140,6 +144,11 @@ class App {
 
             }
         );
+    }
+
+    // TASK 2.1.3 Store if object is interacting meshes
+    storeIfInteractingMesh(mesh) {
+
     }
 
     initGame() {
@@ -225,7 +234,10 @@ class App {
                 self.player.object.position.copy(this.userData.teleport.position);
                 self.teleports.forEach(teleport => teleport.fadeOut(0.5));
 
-            } else if (this.userData.marker.visible) {
+            }
+            // TASK 2.5 Call play for the interactable
+
+            else if (this.userData.marker.visible) {
                 const pos = this.userData.marker.position;
                 console.log(`${pos.x.toFixed(3)}, ${pos.y.toFixed(3)}, ${pos.z.toFixed(3)}`);
             }
@@ -263,6 +275,10 @@ class App {
         this.teleports.forEach(teleport =>
         self.collisionObjects.push(teleport.children[0]));
 
+
+        // TASK 2.3 Add meshes to the list of collisionObjects for selecting them by the controllers.
+
+
     }
 
     intersectObjects(controller) {
@@ -298,6 +314,10 @@ class App {
                 intersect.object.parent.selected = true;
                 controller.userData.teleport = intersect.object.parent;
             }
+
+            // TASK 2.4 Add the selected interactable to the controller's userData object.
+
+
         }
 
     }
@@ -351,6 +371,9 @@ class App {
             this.controllers.forEach(controller => {
                 self.intersectObjects(controller);
             })
+
+            // TASK 2.2 Update interactable meshes
+
 
             this.player.update(dt);
         }

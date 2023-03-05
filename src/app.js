@@ -210,7 +210,7 @@ class App {
                 tweens: [
                     {
                         target: mesh.quaternion,
-                        channel: 'x',
+                        channel: 'z',
                         start: 0,
                         end: 1,
                         duration: 1

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import venice_sunset_environment from "../assets/hdr/venice_sunset_1k.hdr"
-import dungeon from "../assets/dungeon.glb"
+import dungeon from "../assets/dungeon3test.glb"
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
 import {RGBELoader} from "three/addons/loaders/RGBELoader";
@@ -200,6 +200,19 @@ class App {
                         channel: 'z',
                         start: 0,
                         end: 0.7,
+                        duration: 1
+                    }
+                ]
+            }));
+        } else if (mesh.name == "Capybara_mesh_Capybara_mat_0") {
+            this.interactables.push(new Interactable(mesh, {
+                mode: 'tweens',
+                tweens: [
+                    {
+                        target: mesh.quaternion,
+                        channel: 'x',
+                        start: 0,
+                        end: 1,
                         duration: 1
                     }
                 ]

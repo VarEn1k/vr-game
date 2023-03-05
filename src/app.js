@@ -191,6 +191,19 @@ class App {
                     }
                 ]
             }));
+        } else if (mesh.name == "Door") {
+            this.interactables.push(new Interactable(mesh, {
+                mode: 'tweens',
+                tweens: [
+                    {
+                        target: mesh.quaternion,
+                        channel: 'z',
+                        start: 0,
+                        end: 0.7,
+                        duration: 1
+                    }
+                ]
+            }));
         }
     }
 

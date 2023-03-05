@@ -210,7 +210,7 @@ class App {
                 tweens: [
                     {
                         target: mesh.quaternion,
-                        channel: 'z',
+                        channel: 'y',
                         start: 0,
                         end: 1,
                         duration: 1
@@ -219,6 +219,7 @@ class App {
             }));
         }
     }
+
 
     initGame() {
         this.player = this.createPlayer();

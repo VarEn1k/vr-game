@@ -2,6 +2,10 @@ import * as THREE from 'three';
 
 import venice_sunset_environment from "../assets/hdr/venice_sunset_1k.hdr"
 import dungeon from "../assets/dungeon3test.glb"
+// TASK 3.2 Link GLB-files with ghoul and gun models
+
+// TASK 3.3 Link MP3-files with sound effects
+
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
 import {RGBELoader} from "three/addons/loaders/RGBELoader";
@@ -13,9 +17,19 @@ import {XRControllerModelFactory} from "three/addons/webxr/XRControllerModelFact
 import {TeleportMesh} from "./models/TeleportMesh";
 import {Interactable} from "./utils/Interactable";
 
+const soundFiles = {
+     ambient: ambient,
+     shot: shot,
+     snarl: snarl,
+     swish: swish
+}
+
 class App {
     constructor() {
         const container = document.createElement('div');
+        container.style.position = 'fixed'
+        container.style.top = '0px'
+        container.style.left = '0px'
         document.body.appendChild(container);
 
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
@@ -41,6 +55,8 @@ class App {
         this.sun.position.set(0, 10, 10);
         this.scene.add(this.sun);
 
+        // TASK 3.4 Configure debug options
+
         this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -60,7 +76,7 @@ class App {
 
         this.loading = true;
 
-        window.addEventListener('resize', this.render.bind(this));
+        window.addEventListener('resize', this.resize.bind(this));
     }
 
     resize() {
@@ -100,6 +116,10 @@ class App {
 
         // TASK 2.1.1 Create empty array for storing interacting meshes
         this.interactables = []
+
+        // TASK 3.5 Create empty array for markables models
+
+
         const self = this;
 
         // Load a glTF resource
@@ -119,10 +139,12 @@ class App {
                             self.navmesh = child;
                             child.geometry.scale(scale, scale, scale);
                             child.scale.set(2, 2, 2);
+                        // TASK 3.6 Store markable mesh (chest)
+
                         } else {
                             // TASK 2.1.2 Check if mesh is interacting
-                            self.storeIfInteractingMesh.bind(self, child).call()
 
+                            self.storeIfInteractingMesh.bind(self, child).call()
                             child.castShadow = false;
                             child.receiveShadow = true;
                         }
@@ -131,6 +153,7 @@ class App {
 
                 gltf.scene.scale.set(scale, scale, scale);
 
+                // TASK 3.7 Load all assets
                 self.initGame();
             },
             // called while loading is progressing
@@ -221,6 +244,14 @@ class App {
     }
 
 
+    // TASK 3.8 Load ghoul, gun models and sound effects
+
+
+
+    // TASK 3.9 Init path finding
+
+
+
     initGame() {
         this.player = this.createPlayer();
 
@@ -289,6 +320,8 @@ class App {
             const grip = this.renderer.xr.getControllerGrip(i);
             grip.add(controllerModelFactory.createControllerModel(grip));
             this.dolly.add(grip);
+            // TASK 3.10 Store grip model to the controller
+
         }
 
         return controllers;
@@ -301,12 +334,16 @@ class App {
 
         function onSelectStart() {
             this.userData.selectPressed = true;
+            // TASK 3.11 Shout if controller is with the gun model
+
             // TASK 1.6 On select press move to the selected teleport
             if (this.userData.teleport) {
                 self.player.object.position.copy(this.userData.teleport.position);
                 self.teleports.forEach(teleport => teleport.fadeOut(0.5));
 
             }
+            // TASK 3.12 Add teleportation sound
+
             // TASK 2.5 Call play for the interactable
                 else if (this.userData.interactable) {
                     this.userData.interactable.play()
@@ -333,6 +370,8 @@ class App {
             self.teleports.forEach(teleport => teleport.fadeOut(1));
         }
 
+        // TASK 3.13 Load audio after entering VR mode
+
         const btn = new VRButton(this.renderer);
 
         this.controllers = this.buildControllers();
@@ -355,6 +394,9 @@ class App {
 
     }
 
+    // TASK 3.15 Change controller model
+
+
     intersectObjects(controller) {
 
         const line = controller.getObjectByName('ray');
@@ -376,12 +418,15 @@ class App {
 
             const intersect = intersects[0];
             line.scale.z = intersect.distance;
+            // TASK 3.16 Check if intersect markable object
 
             if (intersect.object === this.navmesh) {
                 marker.scale.set(1, 1, 1);
                 marker.position.copy(intersect.point);
                 marker.visible = true;
             }
+            // TASK 3.17 Pick up gun if marker on gun collider
+
             // TASK 1.5.2 Highlight and store intersected teleport
             else if(intersect.object.parent
             && intersect.object.parent instanceof TeleportMesh) {
@@ -456,6 +501,8 @@ class App {
             this.interactables.forEach(interactable => interactable.update(dt));
 
             this.player.update(dt);
+            // TASK 3.19 Update ghouls and bullet models
+
         }
 
         this.renderer.render(this.scene, this.camera);

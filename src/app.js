@@ -214,6 +214,19 @@ class App {
                     }
                 ]
             }));
+        } else if (mesh.name == "Door_2") {
+            this.interactables.push(new Interactable(mesh, {
+                mode: 'tweens',
+                tweens: [
+                    {
+                        target: mesh.quaternion,
+                        channel: 'z',
+                        start: 0,
+                        end: 0.7,
+                        duration: 1
+                    }
+                ]
+            }));
         } else if (mesh.name == "Door_3") {
             this.interactables.push(new Interactable(mesh, {
                 mode: 'tweens',
@@ -485,6 +498,7 @@ class App {
         this.player = this.createPlayer();
 
         const locations = [
+            new THREE.Vector3(-16, 0, -10),
             new THREE.Vector3(16, 2.5, 1.05),
             new THREE.Vector3(-16, 2.5, 1.05),
             new THREE.Vector3(-0.409, 0.086, 4.038),
